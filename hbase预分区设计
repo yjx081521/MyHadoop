@@ -1,0 +1,8 @@
+如果找到HBase数据表的key的分布情况，就可以在建表的时候对HBase进行region的预分区。这样做的好处是防止大量数据插入时带来的热点问题，提高数据插入的效率。
+
+HBase默认建表时有一个region的rowkey是没有边界的，即没有startkey和endkey，在数据写入时，所有数据都会写入这个默认的region，随着数据量的不断增加，此region已经不能承受不断增长的数据量，会进行split，分层2和region。
+在此过程中，会产生两个问题：
+
+    数据往一个region上写，会有写热点问题。
+    region split会消耗宝贵的集群I/O资源。
+    基于此我们可以控制在建表的时候，创建多个region，并确定每个region的起始和中止rowkey，这样只要我们的rowkey设计能均匀的命中各个region，就不会存在写热点问题。自然split的几率也会大大降低。当然，随着数据量的不断增长，该split的还是需要split。像这样预先创建HBase表分区的方式，称之为预分区。
