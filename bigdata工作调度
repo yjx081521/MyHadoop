@@ -1,0 +1,25 @@
+# 1.为什么需要工作流调度系统
+# 2.Azkaban与Oozie对比
+对市面上最流行的两种调度器，给出以下详细对比，以供技术选型参考。总体来说，ooize相比azkaban是一个重量级的任务调度系统，功能全面，但配置使用也更复杂。如果可以不在意某些功能的缺失，轻量级调度器azkaban是很不错的候选对象。
+详情如下：
+        ###1）功能
+                两者均可以调度mapreduce，pig，java，脚本工作流任务
+                两者均可以定时执行工作流任务
+        ###2）工作流定义
+                Azkaban使用Properties文件定义工作流
+                Oozie使用XML文件定义工作流
+        ###3）工作流传参
+                Azkaban支持直接传参，例如${input}
+                Oozie支持参数和EL表达式，例如${fs:dirSize(myInputDir)}
+        ###4）定时执行
+                Azkaban的定时执行任务是基于时间的
+                Oozie的定时执行任务基于时间和输入数据
+        ###5）资源管理
+                Azkaban有较严格的权限控制，如用户对工作流进行读/写/执行等操作
+                Oozie暂无严格的权限控制
+        ###6）工作流执行
+                Azkaban有两种运行模式，分别是solo server mode(executor server和web server部署在同一台节点)和multi server mode(executor server和web server可以部署在不同节点)
+                Oozie作为工作流服务器运行，支持多用户和多工作流
+        ###7）工作流管理
+                Azkaban支持浏览器以及ajax方式操作工作流
+                Oozie支持命令行、HTTP REST、Java API、浏览器操作工作流
